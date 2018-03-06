@@ -25,7 +25,7 @@
 from spack import *
 
 
-class Tk(AutotoolsPackage):
+class Tk(AutotoolsPackage, TclPackage):
     """Tk is a graphical user interface toolkit that takes developing
        desktop applications to a higher level than conventional
        approaches. Tk is the standard GUI not only for Tcl, but for
