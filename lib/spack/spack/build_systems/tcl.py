@@ -23,66 +23,15 @@
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
 ##############################################################################
 
-import inspect
-
 from spack.directives import depends_on, extends
-from spack.package import PackageBase, run_after
+from spack.package import Package
 
 
-class TclPackage(PackageBase):
-    """Specialized class for packages that are built using Tcl.
-
-    This class provides a single phase that can be overridden:
-
-        1. :py:meth:`~.TclPackage.install`
-
-    It has sensible defaults, and for many packages the only thing
-    necessary will be to add dependencies
+class TclPackage(Package):
+    """Auxiliary class which contains Tcl dependencies and conflicts
+    and is meant to unify and facilitate its usage.
     """
-    phases = ['install']
-
-    #: This attribute is used in UI queries that need to know the build
-    #: system base class
-    build_system_class = 'TclPackage'
 
     extends('tcl')
 
-    depends_on('tcl', type=('build', 'run'))
-
-    # This seems to be mandatory for all tcl packages
-    configure_directory = 'unix'
-
-    def configure_args(self):
-        """Arguments to pass to install via ``--configure-args``."""
-        return []
-
-    def configure_vars(self):
-        """Arguments to pass to install via ``--configure-vars``."""
-        return []
-
-    def install(self, spec, prefix):
-        """Installs a Tcl package."""
-
-        config_args = self.configure_args()
-        config_vars = self.configure_vars()
-
-        args = [
-            'CMD',
-            'INSTALL'
-        ]
-
-        if config_args:
-            args.append('--configure-args={0}'.format(' '.join(config_args)))
-
-        if config_vars:
-            args.append('--configure-vars={0}'.format(' '.join(config_vars)))
-
-        args.extend([
-            '--library={0}'.format(self.module.r_lib_dir),
-            self.stage.source_path
-        ])
-
-        inspect.getmodule(self).R(*args)
-
-    # Check that self.prefix is there after installation
-    run_after('install')(PackageBase.sanity_check_prefix)
+    depends_on('tcl')

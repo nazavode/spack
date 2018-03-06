@@ -2268,8 +2268,9 @@ The classes that are currently provided by Spack are:
     | :py:class:`.IntelPackage`     | Specialized class for licensed   |
     |                               | Intel software                   |
     +-------------------------------+----------------------------------+
-    | :py:class:`.TclPackage`       | Specialized class for            |
-    |                               | :py:class:`.Tcl` extensions      |
+    | :py:class:`.TclPackage`       | A helper class for packages that |
+    |                               | extend Tcl. It is intended to be |
+    |                               | used in combination with others  |
     +-------------------------------+----------------------------------+
 
 
