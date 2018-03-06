@@ -193,6 +193,7 @@ from spack.build_systems.python import PythonPackage
 from spack.build_systems.r import RPackage
 from spack.build_systems.perl import PerlPackage
 from spack.build_systems.intel import IntelPackage
+from spack.build_systems.tcl import TclPackage
 
 __all__ += [
     'run_before',
@@ -212,6 +213,7 @@ __all__ += [
     'RPackage',
     'PerlPackage',
     'IntelPackage',
+    'TclPackage',
 ]
 
 from spack.mixins import filter_compiler_wrappers
