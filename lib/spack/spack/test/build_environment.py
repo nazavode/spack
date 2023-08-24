@@ -6,7 +6,6 @@ import inspect
 import os
 import platform
 import posixpath
-import sys
 
 import pytest
 
@@ -103,7 +102,7 @@ def ensure_env_variables(config, mock_packages, monkeypatch, working_env):
 
 @pytest.fixture
 def mock_module_cmd(monkeypatch):
-    class Logger(object):
+    class Logger:
         def __init__(self, fn=None):
             self.fn = fn
             self.calls = []
@@ -119,7 +118,7 @@ def mock_module_cmd(monkeypatch):
     return mock_module_cmd
 
 
-@pytest.mark.skipif(sys.platform == "win32", reason="Static to Shared not supported on Win (yet)")
+@pytest.mark.not_on_windows("Static to Shared not supported on Win (yet)")
 def test_static_to_shared_library(build_environment):
     os.environ["SPACK_TEST_COMMAND"] = "dump-args"
 
@@ -127,13 +126,13 @@ def test_static_to_shared_library(build_environment):
         "linux": (
             "/bin/mycc -shared"
             " -Wl,--disable-new-dtags"
-            " -Wl,-soname,{2} -Wl,--whole-archive {0}"
+            " -Wl,-soname -Wl,{2} -Wl,--whole-archive {0}"
             " -Wl,--no-whole-archive -o {1}"
         ),
         "darwin": (
             "/bin/mycc -dynamiclib"
             " -Wl,--disable-new-dtags"
-            " -install_name {1} -Wl,-force_load,{0} -o {1}"
+            " -install_name {1} -Wl,-force_load -Wl,{0} -o {1}"
         ),
     }
 
